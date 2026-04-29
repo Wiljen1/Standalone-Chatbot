@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chatbot</title>
+<style>
+body { font-family: Arial; margin: 40px; }
+.chat { max-width: 800px; }
+.msg { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="chat">
+<h2>Standalone Chatbot</h2>
+<div id="chatbox"></div>
+<input id="input" style="width:80%" />
+<button onclick="send()">Send</button>
+</div>
+<script>
+async function send() {
+ const q = document.getElementById('input').value;
+ const res = await fetch('/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q})});
+ const data = await res.json();
+ const div = document.getElementById('chatbox');
+ div.innerHTML += `<div class='msg'><b>Q:</b> ${q}<br><b>A:</b> ${data.answer}<br><b>Confidence:</b> ${data.confidence}</div>`;
+}
+</script>
+</body>
+</html>
